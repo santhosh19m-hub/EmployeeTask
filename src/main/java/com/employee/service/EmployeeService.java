@@ -1,6 +1,7 @@
 package com.employee.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -8,6 +9,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.employee.customexception.LessSalaryException;
 import com.employee.customexception.SalaryLessException;
 import com.employee.dao.EmployeeDao;
 import com.employee.entity.Employee;
@@ -33,5 +35,21 @@ EmployeeDao ed;
 		log.info(ed.getAll());
 		return ed.getAll();
 	}
+	public String secondMax() throws LessSalaryException {
+		List<Employee> l=getAll();
+		Integer sec=l.stream().map(x-> x.getSalary()).sorted(Comparator.reverseOrder()).skip(1).findFirst().get();
+		System.out.println(sec);
+		try {
+		if(sec>50000) {
+			throw new LessSalaryException("Salary is greter than 50000");
+		}
+		else {
+		return "Success";
+		}
+		}
+		catch(LessSalaryException li) {
+			return li.getMessage();
+		}
+		}
 
 }

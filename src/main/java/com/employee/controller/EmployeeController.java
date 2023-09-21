@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.employee.customexception.LessSalaryException;
 import com.employee.customexception.SalaryLessException;
 import com.employee.entity.Employee;
 import com.employee.service.EmployeeService;
@@ -28,5 +29,9 @@ public List<Employee> getAll() {
 	PropertyConfigurator.configure("logging.properties");
 	log.info(es.getAll());
 	return es.getAll();
+}
+@GetMapping("/secondmax") 
+public String secondMax() throws LessSalaryException {
+	return es.secondMax();
 }
 }
